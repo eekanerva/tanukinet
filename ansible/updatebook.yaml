@@ -1,0 +1,64 @@
+---
+- name: Updating Debian(-based) machines
+  hosts: tanukipi, debian_vm, yarrbian
+  become: true
+  ignore_unreachable: true
+  tasks:
+    - name: Updating through APT...
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+        
+        
+        
+- name: Updating TanukiPi's Pi-Hole
+  hosts: tanukipi
+  become: true
+  ignore_unreachable: true
+  tasks:
+   - name: updating
+     command: pihole -up
+     register: pihole_update_result
+     changed_when: "'Everything is up to date!' not in pihole_update_result.stdout"
+
+
+   - name: Display Pi-Hole update results
+     debug:
+       var: pihole_update_result.stdout_lines
+
+
+    
+- name: Updating Leap machines
+  hosts: leap_vm
+  become: true
+  ignore_unreachable: true
+  tasks:
+   - name: updating...
+     community.general.zypper:
+      name: '*'
+      state: latest
+      simple_errors: true
+      quiet: false
+        
+
+
+
+- name: Updating Tanuki and TanukiPad
+  hosts: tanuki, tanukipad
+  become: true
+  ignore_unreachable: true
+  tasks:
+    - name: Updating...
+      ansible.builtin.dnf:
+       name: '*'
+       state: latest
+
+    - name: Updating Flatpak's also
+      command: flatpak update -y
+      register: flatpak_update_result
+      changed_when: "'Nothing to update.' not in flatpak_update_result.stdout"
+
+
+     
+
+     
