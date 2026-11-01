@@ -1,0 +1,33 @@
+tanukinet:
+ children:
+   hardware:
+    hosts:
+      tanukipi:
+       ansible_host: '{{ tanukipi }}'
+       ansible_connection: local 
+       ansible_become_password: '{{ pw_tanukipi }}'
+      serveli:
+       ansible_host: '{{ serveli }}'
+       ansible_become_password: '{{ pw_serveli }}'
+      tanuki:
+       ansible_host: '{{ tanuki }}'
+       ansible_become_password: '{{ pw_tanuki }}'
+      tanukipad:
+       ansible_host: '{{ tanukipad }}'
+       ansible_become_password: '{{ pw_tanukipad }}'
+
+
+   virtual:
+    hosts:
+     debianvm:
+      ansible_host: '{{ debianvm }}'
+      ansible_become_password: '{{ pw_debianvm }}'
+     kalivm:
+      ansible_host: '{{ kalivm }}'
+      ansible_become_password: '{{ pw_kalivm }}'
+     leapvm:
+       ansible_host: '{{ leapvm }}'
+       ansible_become_password: '{{ pw_leapvm }}'
+     testvm:
+      ansible_host: '{{ testvm }}'
+      ansible_become_password: '{{ pw_testvm}}'
